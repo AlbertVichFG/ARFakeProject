@@ -4,21 +4,21 @@
     "maps": [
         {
             "name": "TouchMap",
-            "id": "6386711c-9327-41cd-bad4-9cc98bb15a37",
+            "id": "90413412-f4fd-4ffc-97b7-f908fe6dce18",
             "actions": [
                 {
                     "name": "TouchScreen",
                     "type": "Button",
-                    "id": "5e21e995-efb4-4d02-be28-dc8b39a3a0d9",
+                    "id": "aa09c092-9938-4846-bb1a-9f583654bfc0",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TouchPositon",
+                    "name": "TouchPosition",
                     "type": "Value",
-                    "id": "10452075-b058-438a-b8c6-ae99f6b037a8",
+                    "id": "1450dec7-aa64-417e-8e6e-14cccc2deaf5",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -28,7 +28,7 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "f04d6a8c-63c6-43d6-bc05-46074ca91af9",
+                    "id": "9f16bf5c-0a2b-4cf3-bd65-aa32af2f6bd6",
                     "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
@@ -39,12 +39,12 @@
                 },
                 {
                     "name": "",
-                    "id": "46d8fe38-f3fd-4433-b405-2a756ab98cec",
+                    "id": "5eaef5e5-c3da-41f3-8d1d-ab046677dbaf",
                     "path": "<Touchscreen>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPositon",
+                    "action": "TouchPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

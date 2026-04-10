@@ -5,59 +5,58 @@ public class GameController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
     }
 
+    // Update is called once per frame
     void Update()
     {
         //Input manager
-        /*if (Input.touchCount> 0)
+        /*if (Input.touchCount > 0)
         {
-            Touch  touch = Input.GetTouch(0);
+            Touch touch = Input.GetTouch(0);
 
-            if(touch.phase == TouchPhase.Began) //primer frame que dit toca pantalla
+            if (touch.phase == TouchPhase.Began)//El primer frame que el dedo toca la pantalla
+            {
+
+            }
+            /*
+            if(touch.phase == TouchPhase.Moved)//detecta si el dedo esta en una posicion distinta del frame anterior
             {
 
             }
 
-
-          /*  if(touch.phase == TouchPhase.Moved) //detecta dit esta en posicio difente al frame anterior
-            {
-    
-            }
-    
-            if(touch.phase == TouchPhase.Stationary) //mira si dit esta mateixa poscio que frame anterior
+            if(touch.phase == TouchPhase.Stationary)// que mira si el dedo esta en la misma posicion que el frame anterior
             {
 
             }
 
-            if(touch.phase == TouchPhase.Ended) //detecta que dit ha deixat de tocar pantalla
+            if( touch.phase == TouchPhase.Ended)//el frame despues de que el dedo haya dejado de tocar la pantalla
             {
 
             }
 
-            if(touch.phase == TouchPhase.Canceled) //detecta que el sistema ha cancelat el touch
+            if(touch.phase == TouchPhase.Canceled) //el frame despues de que el dedo haya dejado de tocar la pantalla
             {
 
             }
+            
+            //touch.position Es la posicion en pixeles de la pantalla del dedo
+        }*/
 
-            //touch.position; //posicio del touch en pantalla*/
 
+        //Input system
 
-
-        //input system MILLOR!!
     }
-
-
 
     public void TouchScreen(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started)
         {
-            Vector2 touchPosition = playerInput.actions["TouchPositon"].ReadValue<Vector2>();
-
+            Vector2 touchPos= playerInput.actions["TouchPosition"].ReadValue<Vector2>();
         }
 
         /*if(context.phase == InputActionPhase.Performed)
@@ -65,7 +64,7 @@ public class GameController : MonoBehaviour
 
         }
 
-        if(context.phase == InputActionPhase.Canceled)
+        if (context.phase == InputActionPhase.Canceled)
         {
 
         }*/
