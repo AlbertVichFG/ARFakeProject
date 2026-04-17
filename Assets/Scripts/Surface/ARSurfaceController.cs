@@ -42,9 +42,9 @@ public class ARSurfaceController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                // Si està tocant la UI, sortir
-               /* if (EventSystem.current.IsPointerOverGameObject())
-                    return;*/
+                
+               if (EventSystem.current.IsPointerOverGameObject()) 
+                    return;
 
                 //Debug.Log("Raycast hit: " + hit.collider.gameObject.name);
                 Instantiate(prefab, hit.point, Quaternion.identity);

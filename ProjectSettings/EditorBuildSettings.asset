@@ -5,9 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/MainMenu.unity
+    guid: 11184412b1a12e14b8de8803099935a4
   - enabled: 1
+    path: Assets/Scenes/ShootAliens.unity
+    guid: a643666f205abe64b8a931b789da17b5
+  - enabled: 0
     path: Assets/Scenes/CombatBichos.unity
     guid: 4755b35b590504809a7525fd2109c2e2
+  - enabled: 0
+    path: Assets/Scenes/TrakingSurface.unity
+    guid: 36e9730791ca9774380439157d8797ac
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 0465d33c6aee55f44b0237db8b0e0259, type: 2}
