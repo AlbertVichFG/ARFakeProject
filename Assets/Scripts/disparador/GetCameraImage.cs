@@ -22,8 +22,9 @@ public class GetCameraImage : MonoBehaviour
             }
 
         }
-        //Esto es para que no me de error en unity
-        cam = new WebCamTexture(realCamaras[0].name, Screen.width, Screen.height);
+
+        if (cam == null)
+            cam = new WebCamTexture();
 
         cam.Play();
         backgroundTexture.texture = cam;

@@ -35,42 +35,28 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        float side = Random.value < 0.5f ? -1 : 1;
+        Vector3 spawnPos = Camera.main.transform.position +
+                           Camera.main.transform.forward * spawnDistance;
 
-        float hAngle = Random.Range(minHorizontalAngle, maxHorizontalAngle) * side;
-        float vAngle = Random.Range(minVerticalAngle, maxVerticalAngle);
+        GameObject prefab =
+            enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-        Quaternion rot = Quaternion.Euler(vAngle, hAngle, 0);
-
-        Vector3 dir = rot * Camera.main.transform.forward;
-
-        Vector3 spawnPos = Camera.main.transform.position + dir * spawnDistance;
-
-        GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-
-        GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
-
-        enemy.tag = "Enemy";
+        Instantiate(prefab, spawnPos, Quaternion.identity);
     }
 
     private void MoveEnemies()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (GameObject e in enemies)
+        foreach (GameObject ene in enemies)
         {
             Vector3 playerPos = Camera.main.transform.position;
 
-            Vector3 dir = (playerPos - e.transform.position).normalized;
+            Vector3 dir = (playerPos - ene.transform.position).normalized;
 
-            e.transform.position += dir * enemySpeed * Time.deltaTime;
+            ene.transform.position += dir * enemySpeed * Time.deltaTime;
 
-            e.transform.LookAt(playerPos);
-
-            if (Vector3.Distance(e.transform.position, playerPos) < 0.5f)
-            {
-               // GameController.instance.GameOver();
-            }
+            ene.transform.LookAt(playerPos);
         }
     }
 }
