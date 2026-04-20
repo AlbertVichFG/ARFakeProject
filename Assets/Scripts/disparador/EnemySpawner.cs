@@ -1,26 +1,24 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Enemy Prefabs")]
     [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private Transform player;
 
-    [Header("Spawn Settings")]
-    [SerializeField] private float spawnDistance;
-    [SerializeField] private float spawnInterval;
-
-    [SerializeField] private float minVerticalAngle;
-    [SerializeField] private float maxVerticalAngle;
-
-    [SerializeField] private float minHorizontalAngle;
-    [SerializeField] private float maxHorizontalAngle;
-
-    [Header("Enemy Movement")]
-    [SerializeField] private float enemySpeed;
+    [SerializeField] private float spawnDistance = 8f;
+    [SerializeField] private float spawnInterval = 2f;
+    [SerializeField] private float enemySpeed = 1.5f;
 
     private float timer;
 
-    private void Update()
+    void Start()
+    {
+        // cada 10 segons augmenta dificultat
+        InvokeRepeating(nameof(IncreaseDifficulty), 10f, 10f);
+    }
+
+    void Update()
     {
         timer += Time.deltaTime;
 
@@ -33,30 +31,74 @@ public class EnemySpawner : MonoBehaviour
         MoveEnemies();
     }
 
-    private void SpawnEnemy()
+    void SpawnEnemy()
     {
-        Vector3 spawnPos = Camera.main.transform.position +
-                           Camera.main.transform.forward * spawnDistance;
+        // rang perquè no surtin al centre
+        float horizontal = Random.Range(-4f, 4f);
+        float vertical = Random.Range(-1f, 2f);
+
+        Vector3 spawnPos =
+            player.position +
+            player.forward * spawnDistance +
+            new Vector3(horizontal, vertical, 0);
 
         GameObject prefab =
             enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
-        Instantiate(prefab, spawnPos, Quaternion.identity);
+        GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
+
+        // efecte spawn (pop)
+        enemy.transform.localScale = Vector3.zero;
+        StartCoroutine(ScaleUp(enemy.transform));
     }
 
-    private void MoveEnemies()
+    void MoveEnemies()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (GameObject ene in enemies)
+        foreach (GameObject enemy in enemies)
         {
-            Vector3 playerPos = Camera.main.transform.position;
+            Vector3 playerPos = player.position;
 
-            Vector3 dir = (playerPos - ene.transform.position).normalized;
+            Vector3 dir = (playerPos - enemy.transform.position).normalized;
 
-            ene.transform.position += dir * enemySpeed * Time.deltaTime;
+            enemy.transform.position += dir * enemySpeed * Time.deltaTime;
 
-            ene.transform.LookAt(playerPos);
+            enemy.transform.LookAt(playerPos);
+
+            // si arriba  game over
+            if (Vector3.Distance(enemy.transform.position, playerPos) < 0.5f)
+            {
+                GameController.instance.GameOver();
+            }
         }
+    }
+
+    void IncreaseDifficulty()
+    {
+        spawnInterval -= 0.1f;
+        enemySpeed += 0.2f;
+
+        if (spawnInterval < 0.5f)
+            spawnInterval = 0.5f;
+    }
+
+
+    // efecte spawn (pop)
+    IEnumerator ScaleUp(Transform t)
+    {
+        float time = 0;
+        float duration = 0.2f;
+
+        while (time < duration)
+        {
+            float scale = Mathf.Lerp(0, 1, time / duration);
+            t.localScale = Vector3.one * scale;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        t.localScale = Vector3.one;
     }
 }

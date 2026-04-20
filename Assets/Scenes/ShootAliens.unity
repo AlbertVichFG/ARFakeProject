@@ -874,6 +874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1291763674}
   - component: {fileID: 1291763673}
+  - component: {fileID: 1291763675}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -961,6 +962,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1291763675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291763672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1314447394
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,12 +1159,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefabs:
   - {fileID: 0}
+  player: {fileID: 0}
   spawnDistance: 10
-  spawnInterval: 4
-  minVerticalAngle: -10
-  maxVerticalAngle: 25
-  minHorizontalAngle: 15
-  maxHorizontalAngle: 40
+  spawnInterval: 2
   enemySpeed: 1.5
 --- !u!4 &1325490249
 Transform:
@@ -1562,7 +1589,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   gameOverPanel: {fileID: 2052187079}
   scoreText: {fileID: 797650454}
-  highScoreText: {fileID: 410697911}
 --- !u!114 &2103190802
 MonoBehaviour:
   m_ObjectHideFlags: 0
