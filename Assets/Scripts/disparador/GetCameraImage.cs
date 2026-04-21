@@ -5,42 +5,49 @@ using UnityEngine.UI;
 public class GetCameraImage : MonoBehaviour
 {
     private WebCamTexture cam;
-    [SerializeField]
-    private RawImage backgroundTexture;
+
+    [SerializeField] private RawImage backgroundTexture;
     [SerializeField] private TextMeshProUGUI proba;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //primero: revisar camaras de nuestro dispositivo
-        WebCamDevice[] realCamaras = WebCamTexture.devices;
+        WebCamDevice[] cams = WebCamTexture.devices;
 
-        proba.text = "Hola?";
-
-
-        for (int i = 0; i < realCamaras.Length; i++)
+        for (int i = 0; i < cams.Length; i++)
         {
-            proba.text = "Camara trasera encontrada: " + realCamaras[i].name;
-
-
-            Debug.Log(realCamaras[i].name);
-            if (realCamaras[i].isFrontFacing == false)
+            if (!cams[i].isFrontFacing)
             {
-                cam = new WebCamTexture(realCamaras[i].name, Screen.width, Screen.height);
-                proba.text = "Camara trasera encontrada: " + realCamaras[i].name;
+                cam = new WebCamTexture(cams[i].name);
+                proba.text = "Camera: " + cams[i].name;
+                break;
             }
-
         }
 
-       
+        if (cam == null)
+        {
+            proba.text = "No camera";
+            return;
+        }
 
-        cam.Play();
         backgroundTexture.texture = cam;
+        cam.Play();
+
+        backgroundTexture.rectTransform.sizeDelta =
+    new Vector2(Screen.width, Screen.height);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (cam == null) return;
+
+        // corregir rotació Android
+        backgroundTexture.rectTransform.localEulerAngles =
+            new Vector3(0, 0, -cam.videoRotationAngle);
+
+        // corregir mirall
+        backgroundTexture.rectTransform.localScale =
+            new Vector3(1, cam.videoVerticallyMirrored ? -1 : 1, 1);
+
+
     }
 }

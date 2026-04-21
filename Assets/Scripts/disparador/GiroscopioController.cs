@@ -10,6 +10,8 @@ public class GiroscopioController : MonoBehaviour
         Input.gyro.enabled = true;
     }
 
+
+
     void LateUpdate()
     {
         if (SystemInfo.supportsGyroscope == true)

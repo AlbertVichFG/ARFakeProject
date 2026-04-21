@@ -47,7 +47,12 @@ public class GameController : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 0;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject e in enemies)
+        {
+            Destroy(e);
+        }
 
         scoreText.text = "Score: " + score;
 
