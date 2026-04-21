@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class GetCameraImage : MonoBehaviour
     private WebCamTexture cam;
     [SerializeField]
     private RawImage backgroundTexture;
+    [SerializeField] private TextMeshProUGUI proba;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -13,18 +15,24 @@ public class GetCameraImage : MonoBehaviour
         //primero: revisar camaras de nuestro dispositivo
         WebCamDevice[] realCamaras = WebCamTexture.devices;
 
-        for(int i = 0; i < realCamaras.Length; i++)
+        proba.text = "Hola?";
+
+
+        for (int i = 0; i < realCamaras.Length; i++)
         {
+            proba.text = "Camara trasera encontrada: " + realCamaras[i].name;
+
+
             Debug.Log(realCamaras[i].name);
             if (realCamaras[i].isFrontFacing == false)
             {
                 cam = new WebCamTexture(realCamaras[i].name, Screen.width, Screen.height);
+                proba.text = "Camara trasera encontrada: " + realCamaras[i].name;
             }
 
         }
 
-        if (cam == null)
-            cam = new WebCamTexture();
+       
 
         cam.Play();
         backgroundTexture.texture = cam;
