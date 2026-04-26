@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private GameObject warningLeft;
+    [SerializeField] private GameObject warningRight;
 
     private int score;
 
@@ -23,6 +25,11 @@ public class GameController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         gameOverPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        CheckEnemiesWarning();
     }
 
     public void TouchScreen(InputAction.CallbackContext context)
@@ -69,5 +76,33 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
+    }
+
+
+    void CheckEnemiesWarning()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        bool enemyLeft = false;
+        bool enemyRight = false;
+
+        foreach (GameObject e in enemies)
+        {
+            Vector3 screenPos = Camera.main.WorldToViewportPoint(e.transform.position);
+
+            // si està darrere del player ignorem
+            if (screenPos.z < 0) continue;
+
+            // fora pantalla esquerra
+            if (screenPos.x < 0)
+                enemyLeft = true;
+
+            // fora pantalla dreta
+            if (screenPos.x > 1)
+                enemyRight = true;
+        }
+
+        warningLeft.SetActive(enemyLeft);
+        warningRight.SetActive(enemyRight);
     }
 }

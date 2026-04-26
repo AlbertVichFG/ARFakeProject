@@ -8,6 +8,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float spawnDistance = 8f;
     [SerializeField] private float spawnInterval = 2f;
 
+    [SerializeField] private float spawnWidth = 2f;
+    [SerializeField] private float spawnHeight = 1f;
+
     private float timer;
 
     void Update()
@@ -27,10 +30,10 @@ public class EnemySpawner : MonoBehaviour
         float vertical = Random.Range(-1f, 2f);
 
         Vector3 spawnPos =
-                player.position +
-    player.forward * spawnDistance +
-    player.right * horizontal +
-    player.up * vertical;
+            player.position +
+            player.forward * spawnDistance +
+            player.right * Random.Range(-2f, 2f) +
+            player.up * Random.Range(-0.3f, 0.8f);
 
         GameObject prefab =
             enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
@@ -38,5 +41,19 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = Instantiate(prefab, spawnPos, Quaternion.identity);
 
 
+    }
+
+    void OnDrawGizmos()
+    {
+        if (player == null) return;
+
+        Gizmos.color = Color.red;
+
+        Vector3 center = player.position + player.forward * spawnDistance;
+
+        Gizmos.DrawWireCube(
+            center,
+            new Vector3(spawnWidth * 2, spawnHeight * 2, 0.1f)
+        );
     }
 }

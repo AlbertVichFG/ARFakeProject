@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private float speed = 1.5f;
+
     private Transform player;
 
     void Start()
@@ -21,13 +22,18 @@ public class EnemyController : MonoBehaviour
         transform.LookAt(player);
         transform.rotation *= Quaternion.Euler(-90, 0, 0);
 
+
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("MainCamera"))
         {
             GameController.instance.GameOver();
         }
     }
+
+
+
+
 }

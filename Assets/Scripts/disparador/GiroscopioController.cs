@@ -7,9 +7,19 @@ public class GiroscopioController : MonoBehaviour
 
     void Start()
     {
-        Input.gyro.enabled = true;
+        Debug.Log("Start Gyro Script");
+
+        if (SystemInfo.supportsGyroscope)
+        {
+            Input.gyro.enabled = true;
+        }
     }
 
+    void Update()
+    {
+        if (!Input.gyro.enabled)
+            Input.gyro.enabled = true;
+    }
 
 
     void LateUpdate()
