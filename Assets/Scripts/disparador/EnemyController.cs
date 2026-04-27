@@ -1,14 +1,18 @@
 using UnityEngine;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private float speed = 1.5f;
+    public static float enemySpeed = 1.5f;
 
-    private Transform player;
+    [SerializeField] private Transform player;
+    [SerializeField] GameObject explosionPrefab;
 
     void Start()
     {
-        player = Camera.main.transform;
+        // efecte spawn
+        transform.localScale = Vector3.zero;
+        StartCoroutine(SpawnPop());
     }
 
     void Update()
@@ -17,12 +21,32 @@ public class EnemyController : MonoBehaviour
 
         Vector3 dir = (player.position - transform.position).normalized;
 
-        transform.position += dir * speed * Time.deltaTime;
+        transform.position += dir * enemySpeed * Time.deltaTime;
 
         transform.LookAt(player);
-        transform.rotation *= Quaternion.Euler(-90, 0, 0);
+    }
 
+    IEnumerator SpawnPop()
+    {
+        float t = 0;
+        float duration = 0.2f;
 
+        while (t < duration)
+        {
+            float scale = Mathf.Lerp(0, 1, t / duration);
+            transform.localScale = Vector3.one * scale;
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localScale = Vector3.one;
+    }
+
+    public void Die()
+    {
+        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider other)
