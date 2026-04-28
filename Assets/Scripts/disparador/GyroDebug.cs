@@ -8,7 +8,7 @@ public class GyroDebug : MonoBehaviour
 
     void Start()
     {
-        Input.gyro.enabled = true;
+      //  Input.gyro.enabled = true;
     }
 
     void Update()
@@ -16,7 +16,7 @@ public class GyroDebug : MonoBehaviour
         text.text = "Supported: " + SystemInfo.supportsGyroscope +
         "\nEnabled: " + Input.gyro.enabled +
         "\nAttitude: " + Input.gyro.attitude;
-        /*Bool.text =
+        Bool.text =
            "Enabled: " + Input.gyro.enabled +
            "\nSupported: " + SystemInfo.supportsGyroscope; // Muestra si el giroscopio está habilitado*/
     }

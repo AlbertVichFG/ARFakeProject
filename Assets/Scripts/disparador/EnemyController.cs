@@ -3,16 +3,18 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
-    public static float enemySpeed = 1.5f;
+    public static float enemySpeed = .4f;
 
-    [SerializeField] private Transform player;
-    [SerializeField] GameObject explosionPrefab;
+    private Transform player;
+  //  [SerializeField] GameObject explosionPrefab;
 
     void Start()
     {
         // efecte spawn
-        transform.localScale = Vector3.zero;
-        StartCoroutine(SpawnPop());
+       // transform.localScale = Vector3.one;
+
+        player = Camera.main.transform;
+        //   StartCoroutine(SpawnPop());
     }
 
     void Update()
@@ -26,7 +28,7 @@ public class EnemyController : MonoBehaviour
         transform.LookAt(player);
     }
 
-    IEnumerator SpawnPop()
+  /*  IEnumerator SpawnPop()
     {
         float t = 0;
         float duration = 0.2f;
@@ -41,13 +43,13 @@ public class EnemyController : MonoBehaviour
         }
 
         transform.localScale = Vector3.one;
-    }
+    }*/
 
-    public void Die()
+   /* public void Die()
     {
         Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
-    }
+    }*/
 
     void OnTriggerEnter(Collider other)
     {

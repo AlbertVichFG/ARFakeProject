@@ -29,11 +29,11 @@ public class EnemySpawner : MonoBehaviour
         }
 
         // augment dificultat
-        if (difficultyTimer >= difficultyIncreaseTime)
+        /*if (difficultyTimer >= difficultyIncreaseTime)
         {
             IncreaseDifficulty();
             difficultyTimer = 0;
-        }
+        }*/
     }
 
     void SpawnEnemy()
@@ -59,7 +59,7 @@ public class EnemySpawner : MonoBehaviour
         Instantiate(prefab, spawnPos, Quaternion.identity);
     }
 
-    void IncreaseDifficulty()
+   /* void IncreaseDifficulty()
     {
         // spawn ms rpd
         spawnInterval -= spawnDecrease;
@@ -69,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
 
         // enemics ms rpids
         EnemyController.enemySpeed += 0.2f;
-    }
+    }*/
 
     void OnDrawGizmos()
     {
