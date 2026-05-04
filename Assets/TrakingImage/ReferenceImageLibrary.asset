@@ -41,29 +41,19 @@ MonoBehaviour:
       m_GuidLow: 5731344622248496493
       m_GuidHigh: 1623930904833417900
     m_SerializedTextureGuid:
-      m_GuidLow: 10057890805173548573
-      m_GuidHigh: 5065018091797268104
+      m_GuidLow: 8999382570599683002
+      m_GuidHigh: 15006483157687089643
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: Pik
+    m_Name: Ryze
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
       m_GuidLow: 5731672507780790673
       m_GuidHigh: 16560123345537144240
     m_SerializedTextureGuid:
-      m_GuidLow: 7161942857048744757
-      m_GuidHigh: 2198846232531683546
+      m_GuidLow: 12278074801566981037
+      m_GuidHigh: 6397983601580061273
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: Malb
-    m_Texture: {fileID: 0}
-  - m_SerializedGuid:
-      m_GuidLow: 4628073594660865973
-      m_GuidHigh: 7164151570773182635
-    m_SerializedTextureGuid:
-      m_GuidLow: 6099224729191719473
-      m_GuidHigh: 10121599517586128281
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: Frame
+    m_Name: Trist
     m_Texture: {fileID: 0}

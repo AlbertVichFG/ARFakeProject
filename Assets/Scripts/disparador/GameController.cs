@@ -7,10 +7,13 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    private PlayerInput playerInput;
+    private PlayerInput input;
+
+    [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private TMP_Text finalScoreText;
 
     [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TMP_Text scoreText;
+
     [SerializeField] private GameObject warningLeft;
     [SerializeField] private GameObject warningRight;
 
@@ -23,13 +26,13 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        input = GetComponent<PlayerInput>();
         gameOverPanel.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
-        CheckEnemiesWarning();
+        CheckWarnings();
     }
 
     public void TouchScreen(InputAction.CallbackContext context)
@@ -37,10 +40,9 @@ public class GameController : MonoBehaviour
         if (context.phase != InputActionPhase.Started)
             return;
 
-        Vector2 touchPos =
-            playerInput.actions["TouchPosition"].ReadValue<Vector2>();
+        Vector2 pos = input.actions["TouchPosition"].ReadValue<Vector2>();
 
-        Ray ray = Camera.main.ScreenPointToRay(touchPos);
+        Ray ray = Camera.main.ScreenPointToRay(pos);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -48,61 +50,51 @@ public class GameController : MonoBehaviour
             {
                 Destroy(hit.collider.gameObject);
                 score++;
+
+                scoreText.text = "Score: " + score;
             }
         }
     }
 
     public void GameOver()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject e in enemies)
-        {
-            Destroy(e);
-        }
-
-        scoreText.text = "Score: " + score;
+        Time.timeScale = 0;
 
         gameOverPanel.SetActive(true);
+
+        finalScoreText.text = "Score: " + score;
     }
 
-    public void RestartGame()
+    public void Restart()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void GoToMenu()
+    public void MainMenu()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 
-
-    void CheckEnemiesWarning()
+    void CheckWarnings()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        bool enemyLeft = false;
-        bool enemyRight = false;
+        bool left = false;
+        bool right = false;
 
         foreach (GameObject e in enemies)
         {
-            Vector3 screenPos = Camera.main.WorldToViewportPoint(e.transform.position);
+            Vector3 pos = Camera.main.WorldToViewportPoint(e.transform.position);
 
-            // si està darrere del player ignorem
-            if (screenPos.z < 0) continue;
+            if (pos.z < 0) continue;
 
-            // fora pantalla esquerra
-            if (screenPos.x < 0)
-                enemyLeft = true;
-
-            // fora pantalla dreta
-            if (screenPos.x > 1)
-                enemyRight = true;
+            if (pos.x < 0) left = true;
+            if (pos.x > 1) right = true;
         }
 
-        warningLeft.SetActive(enemyLeft);
-        warningRight.SetActive(enemyRight);
+        warningLeft.SetActive(left);
+        warningRight.SetActive(right);
     }
 }
