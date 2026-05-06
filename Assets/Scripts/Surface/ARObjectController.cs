@@ -2,23 +2,18 @@ using UnityEngine;
 
 public class ARObjectController : MonoBehaviour
 {
-    [SerializeField] private GameObject menuPrefab;
+    [SerializeField] private GameObject menu;
 
-    private GameObject menuInstance;
     private int scaleState = 0;
 
     void Start()
     {
-        // instanciar menú com a fill
-        menuInstance = Instantiate(menuPrefab, transform);
-        menuInstance.transform.localPosition = Vector3.up * 0.3f;
-
-        menuInstance.SetActive(false);
+        menu.SetActive(false);
     }
 
     public void ToggleMenu()
     {
-        menuInstance.SetActive(!menuInstance.activeSelf);
+        menu.SetActive(!menu.activeSelf);
     }
 
     public void ChangeScale()
@@ -27,8 +22,10 @@ public class ARObjectController : MonoBehaviour
 
         if (scaleState == 1)
             transform.localScale = Vector3.one * 0.5f;
+
         else if (scaleState == 2)
             transform.localScale = Vector3.one * 2f;
+
         else
         {
             transform.localScale = Vector3.one;
@@ -44,6 +41,14 @@ public class ARObjectController : MonoBehaviour
     public void Delete()
     {
         Destroy(gameObject);
+    }
+
+    void Update()
+    {
+        if (menu != null)
+        {
+            menu.transform.LookAt(Camera.main.transform);
+        }
     }
 }
 
