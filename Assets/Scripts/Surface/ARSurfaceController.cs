@@ -29,45 +29,53 @@ public class ARSurfaceController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
     }
-
     void Update()
     {
-        // mostrar o amagar planes
         foreach (var plane in planeManager.trackables)
         {
             plane.gameObject.SetActive(planeVisibility);
-            //plane.GetComponent<ARPlaneMeshVisualizer>().enabled = planeVisibility;
         }
     }
 
     public void TouchScreen(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase != InputActionPhase.Started)
+            return;
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        Vector2 touchPos = playerInput.actions["TouchPosition"].ReadValue<Vector2>();
+
+        // mirar si cliques un objecte existent
+        Ray ray = Camera.main.ScreenPointToRay(touchPos);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (EventSystem.current.IsPointerOverGameObject())
-                return;
+            ARObjectController obj = hit.collider.GetComponent<ARObjectController>();
 
-            Vector2 touchPos = playerInput.actions["TouchPosition"].ReadValue<Vector2>();
-
-            // raycast AR per detectar superfície
-            if (raycastManager.Raycast(touchPos, hits, TrackableType.PlaneWithinPolygon))
+            if (obj != null)
             {
-                Pose pose = hits[0].pose;
-
-                Instantiate(prefabs[selectedPrefb], pose.position, pose.rotation);
+                obj.ToggleMenu();
+                return;
             }
+        }
+
+        // instanciar
+        if (raycastManager.Raycast(touchPos, hits, TrackableType.PlaneWithinPolygon))
+        {
+            Pose pose = hits[0].pose;
+
+            GameObject obj = Instantiate(prefabs[selectedPrefb], pose.position, pose.rotation);
+
+
         }
     }
 
     public void ToggleVisibilityBttn()
     {
-       // canvasUI.SetActive(!planeVisibility);
-
         planeVisibility = !planeVisibility;
-
     }
 
-    // botons del menú per seleccionar objecte
     public void SelectPrefab(int index)
     {
         selectedPrefb = index;

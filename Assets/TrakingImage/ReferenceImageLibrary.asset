@@ -28,16 +28,6 @@ MonoBehaviour:
     m_Name: FArt
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
-      m_GuidLow: 5591389573792616776
-      m_GuidHigh: 3244700029544661898
-    m_SerializedTextureGuid:
-      m_GuidLow: 17844465983997170044
-      m_GuidHigh: 9834445384144552793
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: rob
-    m_Texture: {fileID: 0}
-  - m_SerializedGuid:
       m_GuidLow: 5731344622248496493
       m_GuidHigh: 1623930904833417900
     m_SerializedTextureGuid:
@@ -55,5 +45,5 @@ MonoBehaviour:
       m_GuidHigh: 6397983601580061273
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: Trist
+    m_Name: Tris
     m_Texture: {fileID: 0}

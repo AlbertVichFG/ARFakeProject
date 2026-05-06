@@ -657,7 +657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
       propertyPath: m_Name
-      value: Ryze
+      value: DanceRyze
       objectReference: {fileID: 0}
     - target: {fileID: 1153443659325649317, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1172,7 +1172,10 @@ PrefabInstance:
       addedObject: {fileID: 7811014583785772140}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 885396271668169318}
+      addedObject: {fileID: 7202645303006493415}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8615694350404032541}
   m_SourcePrefab: {fileID: 100100000, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
 --- !u!1 &1405512555909791298 stripped
 GameObject:
@@ -1189,7 +1192,7 @@ Animator:
   m_GameObject: {fileID: 1405512555909791298}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}
-  m_Controller: {fileID: 9100000, guid: 80c011c6551f4bd42810603ccca6516d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5e3a1b3fa66fcfe4f8973338eea84ab9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1201,7 +1204,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &885396271668169318
+--- !u!114 &7202645303006493415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1210,14 +1213,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1405512555909791298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77e3477cc78a03545a48bd7ceabe5381, type: 3}
+  m_Script: {fileID: 11500000, guid: c573264ff75beb3448075d3ccb36f8fa, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Fighter
-  health: 100
-  minDamage: 10
-  maxDamage: 25
-  projectilePrefab: {fileID: 1393518392783575192, guid: af7b8b95ebf97bf4f9e7f9acc8ced400, type: 3}
-  shootPoint: {fileID: 8529861538544529708}
+  m_EditorClassIdentifier: Assembly-CSharp::ARObjectController
+  menuPrefab: {fileID: 4737111286018062001, guid: 2651b33df86c79549a0c20a803d040db, type: 3}
+--- !u!65 &8615694350404032541
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405512555909791298}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.110874176, y: 0.18875791, z: 0.19706059}
+  m_Center: {x: 0.014760971, y: 0.08754123, z: -0.010902882}
 --- !u!4 &1786436557724116216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1d11535c1b3991f4db8e0e86fef2f970, type: 3}

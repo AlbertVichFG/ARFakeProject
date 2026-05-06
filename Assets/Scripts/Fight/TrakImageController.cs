@@ -1,69 +1,94 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class TrakImageController : MonoBehaviour
 {
+    [SerializeField] private ARTrackedImageManager manager;
+    [SerializeField] private ARObjects[] arObjects;
 
-    [SerializeField]
-    private ARTrackedImageManager trackedImageManager;
+    private Dictionary<string, GameObject> spawned = new Dictionary<string, GameObject>();
 
-    [SerializeField] 
-    private ARObjects [] arObjects;
-
-        private GameObject prefabCopy;
-
-    private void OnEnable()
+    void OnEnable()
     {
-       // trackedImageManager.trackedImagesChanged += OnTrakedChanged; obsolet
-
-        trackedImageManager.trackablesChanged.AddListener(OnTrakedChanged);
+        manager.trackablesChanged.AddListener(OnChanged);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        trackedImageManager.trackablesChanged.RemoveListener(OnTrakedChanged);
+        manager.trackablesChanged.RemoveListener(OnChanged);
     }
 
-    void OnTrakedChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
+    void OnChanged(ARTrackablesChangedEventArgs<ARTrackedImage> args)
     {
-        foreach (var newImage in eventArgs.added)
+        foreach (var img in args.added)
         {
-
-            for (int i = 0; i < arObjects.Length; i++)
-            {
-                if ( arObjects[i].referenceImageName == newImage.referenceImage.name )
-                    {
-                    prefabCopy = Instantiate(arObjects[i].prefab, newImage.transform.position, newImage.transform.rotation);
-                }
-            }
-
-            if (newImage.referenceImage.name == "FArt")
-            {
-              // prefabCopy = Instantiate(framePrefab, newImage.transform.position, newImage.transform.rotation);
-            }
-            
+            Spawn(img);
         }
 
-        foreach (var newImage in eventArgs.removed)
+        foreach (var img in args.updated)
         {
-            // eliminar img
-            /*if (newImage.referenceImage.name == "FArt")
-            {
-                Destroy(prefabCopy);
-            }*/
+            UpdateObject(img);
         }
 
-        foreach (var newImage in eventArgs.updated)
+        foreach (var img in args.removed)
         {
-            //actualizar img
+            Remove(img);
+        }
+    }
+
+    private void Remove(KeyValuePair<TrackableId, ARTrackedImage> img)
+    {
+        throw new NotImplementedException();
+    }
+
+    void Spawn(ARTrackedImage img)
+    {
+        string name = img.referenceImage.name;
+
+        if (spawned.ContainsKey(name)) return;
+
+        foreach (var ar in arObjects)
+        {
+            if (ar.referenceImageName == name)
+            {
+                GameObject obj = Instantiate(ar.prefab, img.transform);
+                spawned.Add(name, obj);
+            }
+        }
+    }
+
+    void UpdateObject(ARTrackedImage img)
+    {
+        string name = img.referenceImage.name;
+
+        if (spawned.ContainsKey(name))
+        {
+            GameObject obj = spawned[name];
+
+            obj.transform.position = img.transform.position;
+            obj.transform.rotation = img.transform.rotation;
+        }
+    }
+
+    void Remove(ARTrackedImage img)
+    {
+        string name = img.referenceImage.name;
+
+        if (spawned.ContainsKey(name))
+        {
+            Destroy(spawned[name]);
+            spawned.Remove(name);
         }
     }
 }
 
-[Serializable]
+[System.Serializable]
 public class ARObjects
 {
     public string referenceImageName;
-        public GameObject prefab;
+    public GameObject prefab;
 }
