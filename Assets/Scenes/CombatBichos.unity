@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf8897113f41a34995049c51708f9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrakImageController
-  manager: {fileID: 0}
+  manager: {fileID: 331264288}
   arObjects:
   - referenceImageName: FArt
     prefab: {fileID: 5422590861175705522, guid: e8ab960e9290d5b43a0dcf4005901601, type: 3}
@@ -261,9 +261,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1771562425}
-    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!114 &331264286 stripped
 MonoBehaviour:
