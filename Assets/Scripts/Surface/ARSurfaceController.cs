@@ -12,6 +12,7 @@ public class ARSurfaceController : MonoBehaviour
     private ARPlaneManager planeManager;
     [SerializeField] private ARRaycastManager raycastManager; // per detectar superfície i posar objecte
 
+
     [SerializeField]
     private GameObject[] prefabs;
     [SerializeField]
@@ -22,6 +23,7 @@ public class ARSurfaceController : MonoBehaviour
 
     [SerializeField]
     private GameObject canvasUI;
+
 
     private List<ARRaycastHit> hits = new List<ARRaycastHit>(); // per guardar resultats raycast
 
@@ -51,10 +53,14 @@ public class ARSurfaceController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(touchPos);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            Debug.Log("Hit: " + hit.collider.name);
+
             ARObjectController obj = hit.collider.GetComponent<ARObjectController>();
 
             if (obj != null)
             {
+                Debug.Log("Objecte detectat");
+
                 obj.ToggleMenu();
                 return;
             }
@@ -73,6 +79,8 @@ public class ARSurfaceController : MonoBehaviour
 
     public void ToggleVisibilityBttn()
     {
+
+        canvasUI.SetActive(!canvasUI.activeSelf);
         planeVisibility = !planeVisibility;
     }
 

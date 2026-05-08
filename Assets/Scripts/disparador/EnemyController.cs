@@ -3,31 +3,51 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
-    public static float speed = 1.5f;
+    [SerializeField] private Transform player;
 
-    private Transform player;
+    [SerializeField] private float speed = 1.5f;
 
-    void Start()
-    {
-        player = Camera.main.transform;
-    }
+    [SerializeField] private GameObject destroyEffect;
 
     void Update()
     {
-        Vector3 dir = (player.position - transform.position).normalized;
+        if (player == null) return;
 
-        transform.position += dir * speed * Time.deltaTime;
+        // direcció player
+        Vector3 dir =
+            (player.position - transform.position).normalized;
 
+        // moure enemic
+        transform.position +=
+            dir * speed * Time.deltaTime;
+
+        // mirar player
         transform.LookAt(player);
-        transform.Rotate(90f, 0f, 0f);
+    }
+
+    public void Die()
+    {
+        // efecte destrucció
+        if (destroyEffect != null)
+        {
+            Instantiate(
+                destroyEffect,
+                transform.position,
+                Quaternion.identity
+            );
+        }
+
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
+        if (other.CompareTag("Player") ||
+            other.CompareTag("MainCamera"))
         {
-            GameController.instance.GameOver();
+            GameController.instance.TakeDamage();
+
+            Destroy(gameObject);
         }
     }
-
 }

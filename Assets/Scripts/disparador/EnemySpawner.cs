@@ -3,18 +3,21 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
+
     [SerializeField] private Transform player;
 
-    [SerializeField] private float spawnDistance = 4f;
+    [SerializeField] private float spawnDistance = 6f;
+
     [SerializeField] private float spawnInterval = 2f;
 
-    private float timer;
+    // límits altura spawn
+    [SerializeField] private float minHeight = -1f;
+    [SerializeField] private float maxHeight = 2f;
 
-    void Start()
-    {
-        if (player == null)
-            player = Camera.main.transform;
-    }
+    // límits laterals
+    [SerializeField] private float horizontalRange = 4f;
+
+    private float timer;
 
     void Update()
     {
@@ -23,25 +26,57 @@ public class EnemySpawner : MonoBehaviour
         if (timer >= spawnInterval)
         {
             SpawnEnemy();
+
             timer = 0;
         }
     }
 
     void SpawnEnemy()
     {
-        float side = Random.value < 0.5f ? -1f : 1f;
+        // posició davant jugador
+        Vector3 center =
+            player.position +
+            player.forward * spawnDistance;
 
-        float horizontalAngle = Random.Range(60f, 90f) * side;
-        float verticalAngle = Random.Range(-5f, 15f);
+        // offset random
+        float randomX =
+            Random.Range(-horizontalRange, horizontalRange);
 
-        Quaternion rot = Quaternion.Euler(verticalAngle, horizontalAngle, 0);
-        Vector3 dir = rot * player.forward;
+        float randomY =
+            Random.Range(minHeight, maxHeight);
 
-        Vector3 spawnPos = player.position + dir * spawnDistance;
+        Vector3 spawnPos =
+            center +
+            player.right * randomX +
+            player.up * randomY;
 
+        // prefab random
         GameObject prefab =
-            enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+            enemyPrefabs[
+                Random.Range(0, enemyPrefabs.Length)
+            ];
 
         Instantiate(prefab, spawnPos, Quaternion.identity);
+    }
+
+    // veure zona spawn al editor
+    void OnDrawGizmos()
+    {
+        if (player == null) return;
+
+        Gizmos.color = Color.red;
+
+        Vector3 center =
+            player.position +
+            player.forward * spawnDistance;
+
+        Gizmos.DrawWireCube(
+            center,
+            new Vector3(
+                horizontalRange * 2,
+                maxHeight - minHeight,
+                1f
+            )
+        );
     }
 }

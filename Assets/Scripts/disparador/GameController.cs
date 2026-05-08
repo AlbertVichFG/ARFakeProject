@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -10,14 +12,19 @@ public class GameController : MonoBehaviour
     private PlayerInput input;
 
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private Image[] hearts;
+    [SerializeField] private Sprite fullHeart;
+    [SerializeField] private Sprite emptyHeart;
     [SerializeField] private TMP_Text finalScoreText;
 
     [SerializeField] private GameObject gameOverPanel;
 
-    [SerializeField] private GameObject warningLeft;
-    [SerializeField] private GameObject warningRight;
+    [SerializeField] private LineRenderer laser;
 
-    private int score;
+    private int score = 0;
+
+    // vides player
+    private int lives = 3;
 
     void Awake()
     {
@@ -27,32 +34,79 @@ public class GameController : MonoBehaviour
     void Start()
     {
         input = GetComponent<PlayerInput>();
+
         gameOverPanel.SetActive(false);
+
+        UpdateUI();
     }
 
-    void Update()
-    {
-        CheckWarnings();
-    }
-
+    // click pantalla
     public void TouchScreen(InputAction.CallbackContext context)
     {
         if (context.phase != InputActionPhase.Started)
             return;
 
-        Vector2 pos = input.actions["TouchPosition"].ReadValue<Vector2>();
+        Vector2 pos =
+            input.actions["TouchPosition"].ReadValue<Vector2>();
 
-        Ray ray = Camera.main.ScreenPointToRay(pos);
+        Ray ray =
+            Camera.main.ScreenPointToRay(pos);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if (hit.collider.CompareTag("Enemy"))
+            EnemyController enemy =
+                hit.collider.GetComponent<EnemyController>();
+
+            if (enemy != null)
             {
-                Destroy(hit.collider.gameObject);
+                StartCoroutine(
+                    ShootLaser(ray.origin, hit.point)
+                );
+
+                enemy.Die();
+
                 score++;
 
-                scoreText.text = "Score: " + score;
+                UpdateUI();
             }
+        }
+    }
+
+    IEnumerator ShootLaser(Vector3 start, Vector3 end)
+    {
+        laser.enabled = true;
+
+        laser.SetPosition(0, start);
+        laser.SetPosition(1, end);
+
+        yield return new WaitForSeconds(0.05f);
+
+        laser.enabled = false;
+    }
+
+    public void TakeDamage()
+    {
+        lives--;
+
+        UpdateUI();
+
+        if (lives <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    void UpdateUI()
+    {
+        scoreText.text = "Score: " + score;
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < lives)
+                hearts[i].sprite = fullHeart;
+
+            else
+                hearts[i].sprite = emptyHeart;
         }
     }
 
@@ -62,39 +116,23 @@ public class GameController : MonoBehaviour
 
         gameOverPanel.SetActive(true);
 
-        finalScoreText.text = "Score: " + score;
+        finalScoreText.text =
+            "Final Score: " + score;
     }
 
     public void Restart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
     }
 
     public void MainMenu()
     {
         Time.timeScale = 1;
+
         SceneManager.LoadScene("MainMenu");
-    }
-
-    void CheckWarnings()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        bool left = false;
-        bool right = false;
-
-        foreach (GameObject e in enemies)
-        {
-            Vector3 pos = Camera.main.WorldToViewportPoint(e.transform.position);
-
-            if (pos.z < 0) continue;
-
-            if (pos.x < 0) left = true;
-            if (pos.x > 1) right = true;
-        }
-
-        warningLeft.SetActive(left);
-        warningRight.SetActive(right);
     }
 }
