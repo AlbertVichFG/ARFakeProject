@@ -152,7 +152,7 @@ MonoBehaviour:
   arObjects:
   - referenceImageName: FArt
     prefab: {fileID: 5422590861175705522, guid: e8ab960e9290d5b43a0dcf4005901601, type: 3}
-  - referenceImageName: Tris
+  - referenceImageName: Trist
     prefab: {fileID: 8839387966332715187, guid: 00784d33d28bca04182a473cc0f6f0db, type: 3}
   - referenceImageName: Ryze
     prefab: {fileID: 1405512555909791298, guid: 7d0958a11736f3544bfcb6bd12105e68, type: 3}
@@ -261,6 +261,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1771562425}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!114 &331264286 stripped
 MonoBehaviour:

@@ -2612,7 +2612,7 @@ MonoBehaviour:
   - {fileID: 2780414372753733277, guid: ec1af581ba8c2b24ba19f31eacda0245, type: 3}
   - {fileID: 5535028074322212392, guid: b042fc15a899be14ab9eaca28fa8778b, type: 3}
   - {fileID: 4675617446475268472, guid: fbc6437fe0501d742b0f16294b7d3a8b, type: 3}
-  - {fileID: 5362121375443514777, guid: e113e747fc5270c46b0afc362f36f30a, type: 3}
+  - {fileID: 7967752498196084430}
   selectedPrefb: 0
   canvasUI: {fileID: 120802160}
 --- !u!4 &2025999569
@@ -3035,6 +3035,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 659032bd995f630489c352e1281a9107, type: 3}
+--- !u!1 &7967752498196084430 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 59785883975480861, guid: 659032bd995f630489c352e1281a9107, type: 3}
+  m_PrefabInstance: {fileID: 7967752498196084429}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8376670809676822626
 PrefabInstance:
   m_ObjectHideFlags: 0
