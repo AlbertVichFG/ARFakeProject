@@ -1,16 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
 public class TrakImageController : MonoBehaviour
 {
+    [Header("AR")]
     [SerializeField] private ARTrackedImageManager manager;
 
     [SerializeField] private ARObjects[] arObjects;
 
     private Dictionary<string, GameObject> spawned =
         new Dictionary<string, GameObject>();
+
+    [Header("Game Over")]
+    [SerializeField] private GameObject gameOverPanel;
+
+    [Header("Pause")]
+    [SerializeField] private GameObject pausePanel;
+
+    private bool paused = false;
+
 
     private Fighter fighter1;
     private Fighter fighter2;
@@ -27,21 +39,24 @@ public class TrakImageController : MonoBehaviour
         manager.trackablesChanged.RemoveListener(OnChanged);
     }
 
+    void Start()
+    {
+        gameOverPanel.SetActive(false);
+        pausePanel.SetActive(false);
+    }
+
     void OnChanged(ARTrackablesChangedEventArgs<ARTrackedImage> args)
     {
-        // noves imatges
         foreach (var img in args.added)
         {
             Spawn(img);
         }
 
-        // update tracking
         foreach (var img in args.updated)
         {
             UpdateObject(img);
         }
 
-        // eliminar tracking
         foreach (var img in args.removed)
         {
           //  Remove(img);
@@ -58,9 +73,6 @@ public class TrakImageController : MonoBehaviour
         if (string.IsNullOrEmpty(name))
             return;
 
-        Debug.Log("Spawn image: " + name);
-
-        // evitar duplicats
         if (spawned.ContainsKey(name))
             return;
 
@@ -73,33 +85,16 @@ public class TrakImageController : MonoBehaviour
 
                 spawned.Add(name, obj);
 
-                Debug.Log("Prefab instantiated");
-
-                // IMPORTANT
                 Fighter fighter =
                     obj.GetComponentInChildren<Fighter>();
 
-                if (fighter == null)
-                {
-                    Debug.LogError("NO FIGHTER FOUND");
-                }
-                else
-                {
-                    Debug.Log("Fighter found");
-                }
-
-                // assignar fighters
                 if (fighter1 == null)
                 {
                     fighter1 = fighter;
-
-                    Debug.Log("fighter1 assigned");
                 }
                 else if (fighter2 == null)
                 {
                     fighter2 = fighter;
-
-                    Debug.Log("fighter2 assigned");
                 }
             }
         }
@@ -147,28 +142,15 @@ public class TrakImageController : MonoBehaviour
 
     void Update()
     {
-        if (fighter1 != null)
-            Debug.Log("fighter1 OK");
-
-        if (fighter2 != null)
-            Debug.Log("fighter2 OK");
-
-        // si hi ha dos fighters
         if (fighter1 != null &&
             fighter2 != null)
         {
-            Debug.Log("Both fighters detected");
-
-            // mirar-se
             fighter1.transform.LookAt(fighter2.transform);
 
             fighter2.transform.LookAt(fighter1.transform);
 
-            // començar combat
             if (!fightStarted)
             {
-                Debug.Log("START FIGHT");
-
                 fightStarted = true;
 
                 StartCoroutine(FightLoop());
@@ -178,15 +160,11 @@ public class TrakImageController : MonoBehaviour
 
     IEnumerator FightLoop()
     {
-        Debug.Log("FightLoop started");
-
         yield return new WaitForSeconds(1f);
 
         while (fighter1.IsAlive() &&
                fighter2.IsAlive())
         {
-            Debug.Log("fighter1 attacks");
-
             fighter1.Attack(fighter2);
 
             yield return new WaitForSeconds(1.5f);
@@ -194,28 +172,62 @@ public class TrakImageController : MonoBehaviour
             if (!fighter2.IsAlive())
                 break;
 
-            Debug.Log("fighter2 attacks");
-
             fighter2.Attack(fighter1);
 
             yield return new WaitForSeconds(1.5f);
         }
 
-        Debug.Log("Fight ended");
-
-        // guanyador
+        // winner
         if (fighter1.IsAlive())
         {
-            Debug.Log("fighter1 wins");
-
             fighter1.Win();
+
+            ShowGameOver(fighter1);
         }
         else if (fighter2.IsAlive())
         {
-            Debug.Log("fighter2 wins");
-
             fighter2.Win();
+
+            ShowGameOver(fighter2);
         }
+    }
+
+    void ShowGameOver(Fighter winner)
+    {
+        gameOverPanel.SetActive(true);
+    }
+
+    public void RestartScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void MainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+
+    public void TogglePause()
+    {
+        paused = !paused;
+
+        pausePanel.SetActive(paused);
+
+        if (paused)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+    }
+
+    public void Resume()
+    {
+        paused = false;
+
+        pausePanel.SetActive(false);
+
+        Time.timeScale = 1;
     }
 }
 

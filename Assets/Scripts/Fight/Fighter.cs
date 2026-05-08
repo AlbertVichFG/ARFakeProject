@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Fighter : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Fighter : MonoBehaviour
 
     [Header("Combat")]
     [SerializeField] private GameObject projectilePrefab;
+
     [SerializeField] private Transform shootPoint;
 
     [Header("UI")]
@@ -43,7 +45,7 @@ public class Fighter : MonoBehaviour
         int dmg =
             Random.Range(minDamage, maxDamage);
 
-        // projectile
+        // projectil
         if (projectilePrefab != null)
         {
             GameObject proj =
@@ -89,9 +91,29 @@ public class Fighter : MonoBehaviour
 
         damageText.text = "-" + dmg;
 
+        // gradient groc -> vermell
+        float t =
+            Mathf.InverseLerp(minDamage, maxDamage, dmg);
+
+        damageText.color =
+            Color.Lerp(Color.yellow, Color.red, t);
+
+        StartCoroutine(DamagePop());
+
         CancelInvoke();
 
         Invoke(nameof(HideDamage), 1f);
+    }
+
+    IEnumerator DamagePop()
+    {
+        damageText.transform.localScale =
+            Vector3.one * 1.5f;
+
+        yield return new WaitForSeconds(0.1f);
+
+        damageText.transform.localScale =
+            Vector3.one;
     }
 
     void HideDamage()
