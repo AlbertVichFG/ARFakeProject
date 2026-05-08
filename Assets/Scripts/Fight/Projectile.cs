@@ -1,13 +1,21 @@
+using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private Transform target;
-    public float speed = 5f;
+    [SerializeField] private float speed = 4f;
 
-    public void Init(Transform t)
+   // [SerializeField] private GameObject hitEffect;
+
+    private Fighter target;
+
+    private int damage;
+
+    public void Init(Fighter targetFighter, int dmg)
     {
-        target = t;
+        target = targetFighter;
+
+        damage = dmg;
     }
 
     void Update()
@@ -15,18 +23,42 @@ public class Projectile : MonoBehaviour
         if (target == null)
         {
             Destroy(gameObject);
+
             return;
         }
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            target.position,
-            speed * Time.deltaTime
-        );
+        // moure
+        transform.position =
+            Vector3.MoveTowards(transform.position,target.transform.position, speed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, target.position) < 0.2f)
+        // mirar target
+        transform.LookAt(target.transform);
+
+        // impacte
+        float dist =Vector3.Distance(transform.position, target.transform.position);
+
+        if (dist < 0.2f)
         {
-            Destroy(gameObject);
+            Hit();
         }
+    }
+
+    void Hit()
+    {
+        // efecte impacte
+       /* if (hitEffect != null)
+        {
+            Instantiate(hitEffect,transform.position,Quaternion.identity);
+        }*/
+
+        // aplicar dmg
+        target.TakeDamage(damage);
+
+        Destroy(gameObject);
+    }
+
+    internal void Init(Transform transform)
+    {
+        throw new NotImplementedException();
     }
 }

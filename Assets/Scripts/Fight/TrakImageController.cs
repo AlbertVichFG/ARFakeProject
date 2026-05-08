@@ -15,6 +15,9 @@ public class TrakImageController : MonoBehaviour
     private Dictionary<string, GameObject> spawned =
         new Dictionary<string, GameObject>();
 
+
+
+
     [Header("Game Over")]
     [SerializeField] private GameObject gameOverPanel;
 
@@ -114,11 +117,11 @@ public class TrakImageController : MonoBehaviour
         {
             GameObject obj = spawned[name];
 
-            obj.transform.position =
-                img.transform.position;
+            obj.SetActive(true);
 
-            obj.transform.rotation =
-                img.transform.rotation;
+            obj.transform.position = img.transform.position;
+
+            obj.transform.rotation = img.transform.rotation;
         }
     }
 
@@ -134,9 +137,7 @@ public class TrakImageController : MonoBehaviour
 
         if (spawned.ContainsKey(name))
         {
-            Destroy(spawned[name]);
-
-            spawned.Remove(name);
+            spawned[name].SetActive(false);
         }
     }
 
@@ -200,12 +201,17 @@ public class TrakImageController : MonoBehaviour
     public void RestartScene()
     {
         Time.timeScale = 1;
+        manager.enabled = false;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void MainMenu()
     {
         Time.timeScale = 1;
+
+        manager.enabled = false;
+
         SceneManager.LoadScene(0);
     }
 

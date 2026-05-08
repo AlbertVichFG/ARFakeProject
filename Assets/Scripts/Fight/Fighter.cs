@@ -18,6 +18,13 @@ public class Fighter : MonoBehaviour
 
     [SerializeField] private Transform shootPoint;
 
+    [Header("SFX")]
+
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip attackSFX;
+
+
     [Header("UI")]
     [SerializeField] private Image healthFill;
 
@@ -42,24 +49,22 @@ public class Fighter : MonoBehaviour
 
         animator.SetTrigger("Attack");
 
-        int dmg =
-            Random.Range(minDamage, maxDamage);
+        int dmg = Random.Range(minDamage, maxDamage);
 
-        // projectil
-        if (projectilePrefab != null)
+        // SFX
+        if (attackSFX != null)
         {
-            GameObject proj =
-                Instantiate(
-                    projectilePrefab,
-                    shootPoint.position,
-                    Quaternion.identity
-                );
-
-            proj.GetComponent<Projectile>()
-                .Init(target.transform);
+            audioSource.PlayOneShot(attackSFX);
         }
 
-        target.TakeDamage(dmg);
+        // projectile
+        if (projectilePrefab != null)
+        {
+            GameObject proj =Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+
+            proj.GetComponent<Projectile>().Init(target, dmg);
+        }
+
     }
 
     public void TakeDamage(int dmg)
@@ -81,8 +86,7 @@ public class Fighter : MonoBehaviour
 
     void UpdateHealthBar()
     {
-        healthFill.fillAmount =
-            (float)health / maxHealth;
+        healthFill.fillAmount = (float)health / maxHealth;
     }
 
     void ShowDamage(int dmg)
@@ -91,12 +95,10 @@ public class Fighter : MonoBehaviour
 
         damageText.text = "-" + dmg;
 
-        // gradient groc -> vermell
-        float t =
-            Mathf.InverseLerp(minDamage, maxDamage, dmg);
+        // gradient
+        float t = Mathf.InverseLerp(minDamage, maxDamage, dmg);
 
-        damageText.color =
-            Color.Lerp(Color.yellow, Color.red, t);
+        damageText.color =Color.Lerp(Color.yellow, Color.red, t);
 
         StartCoroutine(DamagePop());
 
@@ -107,13 +109,11 @@ public class Fighter : MonoBehaviour
 
     IEnumerator DamagePop()
     {
-        damageText.transform.localScale =
-            Vector3.one * 1.5f;
+        damageText.transform.localScale = Vector3.one * 1.5f;
 
         yield return new WaitForSeconds(0.1f);
 
-        damageText.transform.localScale =
-            Vector3.one;
+        damageText.transform.localScale = Vector3.one;
     }
 
     void HideDamage()

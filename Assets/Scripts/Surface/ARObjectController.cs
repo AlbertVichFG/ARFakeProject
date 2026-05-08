@@ -8,6 +8,8 @@ public class ARObjectController : MonoBehaviour
 
     private Vector3 defaultScale;
 
+    public AudioClip deleteSFX;
+
     void Start()
     {
         menu.SetActive(false);
@@ -54,6 +56,14 @@ public class ARObjectController : MonoBehaviour
     public void Delete()
     {
         Debug.Log("Delete");
+
+        if (deleteSFX != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                deleteSFX,
+                transform.position
+            );
+        }
 
         Destroy(gameObject);
     }

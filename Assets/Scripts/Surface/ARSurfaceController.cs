@@ -8,6 +8,17 @@ using UnityEngine.XR.ARSubsystems;
 public class ARSurfaceController : MonoBehaviour
 {
 
+    [Header("SFX")]
+
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip startSFX;
+
+    [SerializeField] private AudioClip spawnSFX;
+
+    [SerializeField] private AudioClip deleteSFX;
+
+
     [SerializeField]
     private ARPlaneManager planeManager;
     [SerializeField] private ARRaycastManager raycastManager; // per detectar superfície i posar objecte
@@ -30,6 +41,7 @@ public class ARSurfaceController : MonoBehaviour
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        audioSource.PlayOneShot(startSFX);
     }
     void Update()
     {
@@ -73,7 +85,10 @@ public class ARSurfaceController : MonoBehaviour
 
             GameObject obj = Instantiate(prefabs[selectedPrefb], pose.position, pose.rotation);
 
-
+            if (spawnSFX != null)
+            {
+                audioSource.PlayOneShot(spawnSFX);
+            }
         }
     }
 

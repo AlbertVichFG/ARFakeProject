@@ -568,6 +568,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TF
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 097d89e664a13354d80172b578ed625d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 097d89e664a13354d80172b578ed625d, type: 3}
       propertyPath: m_Controller
       value: 
@@ -630,3 +634,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ARObjectController
   menu: {fileID: 5130312004398898096}
+  deleteSFX: {fileID: 8300000, guid: 71a3fedfed48691429aed143a3df53e5, type: 3}
