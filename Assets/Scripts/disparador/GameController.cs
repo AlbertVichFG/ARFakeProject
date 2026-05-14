@@ -18,12 +18,14 @@ public class GameController : MonoBehaviour
     [SerializeField] private TMP_Text finalScoreText;
 
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject pausePanel;
 
     [SerializeField] private LineRenderer laser;
 
     private int score = 0;
 
     // vides player
+    [SerializeField]
     private int lives = 3;
 
     void Awake()
@@ -54,8 +56,7 @@ public class GameController : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            EnemyController enemy =
-                hit.collider.GetComponent<EnemyController>();
+            EnemyController enemy =  hit.collider.GetComponent<EnemyController>();
 
             if (enemy != null)
             {
@@ -116,8 +117,7 @@ public class GameController : MonoBehaviour
 
         gameOverPanel.SetActive(true);
 
-        finalScoreText.text =
-            "Final Score: " + score;
+        finalScoreText.text ="Final Score: " + score;
     }
 
     public void Restart()
@@ -127,6 +127,13 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+
+        pausePanel.SetActive(false);
     }
 
     public void MainMenu()

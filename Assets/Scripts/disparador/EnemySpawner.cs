@@ -19,6 +19,11 @@ public class EnemySpawner : MonoBehaviour
 
     private float timer;
 
+    void Start()
+    {
+        player = Camera.main.transform;
+    }
+
     void Update()
     {
         timer += Time.deltaTime;
